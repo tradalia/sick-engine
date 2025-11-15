@@ -22,7 +22,7 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-lexer grammar BflLexer;
+lexer grammar TslLexer;
 
 //=== Keywords ================================================================
 
@@ -33,37 +33,56 @@ IF       : 'if';
 ELSE     : 'else';
 FOR      : 'for';
 CONST    : 'const';
+TRUE     : 'true';
+FALSE    : 'false';
+RETURN   : 'return';
+AND      : 'and';
+OR       : 'or';
+NOT      : 'not';
+NULL     : 'null';
+THIS     : 'this';
+OF       : 'of';
 
-INT      : 'int';
-REAL     : 'real';
-STRING   : 'string';
-BOOL     : 'bool';
-TIME     : 'time';
+//--- Datatypes ---
+
+INT        : 'int';
+REAL       : 'real';
+BOOL       : 'bool';
+STRING     : 'string';
+TIME       : 'time';
+DATE       : 'date';
+TIMESERIES : 'timeseries';
+ENUM       : 'enum';
+CLASS      : 'class';
+ERROR      : 'error';
+LIST       : 'list';
+MAP        : 'map';
 
 //=== Identifiers =============================================================
 
-PACKAGE_IDENTIFIER : [a-z]+ ;
-LC_IDENTIFIER      : [a-z]+ ( '_' | [a-zA-Z] | [0-9] )* ;
-UC_IDENTIFIER      : [A-Z]+ ( '_' | [a-zA-Z] | [0-9] )* ;
+IDENTIFIER : [a-zA-Z]+ ( '_' | [a-zA-Z] | [0-9] )* ;
 
-//=== Numbers =================================================================
+//=== Values =================================================================
 
-//=== Strings =================================================================
-v
-STRING_LIT : '"' (~["\\] | ESCAPED_VALUE)* '"' ;
+INT_VALUE : DIGIT+;
 
-fragment ESCAPED_VALUE:
-    '\\' (
-        [abfnrtv\\'"]
-    )
-;
+REAL_VALUE
+    : DIGIT+ '.' DIGIT*
+    | '.' DIGIT+
+    ;
+
+DIGIT: [0-9];
+
+STRING_VALUE : '"' (~["\\] | ESCAPED_VALUE)* '"' ;
+
+fragment ESCAPED_VALUE: '\\' [bnrt\\"];
 
 //=== Symbols =================================================================
 
-L_PAREN    : '(';
-R_PAREN    : ')';
-L_BRACKET  : '[';
-R_BRACKET  : ']';
+L_PAREN    : '(' ;
+R_PAREN    : ')' ;
+L_BRACKET  : '[' ;
+R_BRACKET  : ']' ;
 L_CURLY    : '{' ;
 R_CURLY    : '}' ;
 EQUAL      : '=' ;
@@ -72,12 +91,28 @@ STAR       : '*' ;
 SLASH      : '/' ;
 PLUS       : '+' ;
 MINUS      : '-' ;
+COMMA      : ',' ;
+DOT        : '.' ;
+COLON      : ':' ;
+APOS       : '\'';
+
+//=== Relation operators
+
+NOT_EQUAL        : '<>';
+LESS_THAN        : '<';
+LESS_OR_EQUAL    : '<=';
+GREATER_THAN     : '>';
+GREATER_OR_EQUAL : '>=';
+
+//=== Time serie operators
+
+IN_BAR            : '::';
 
 //=== Comments and white spaces ===============================================
 
-WS           : [ \t]+        -> channel(HIDDEN);
-NEWLINE      : [\r\n]+       -> channel(HIDDEN);
-BLOCK_COMMENT: '/*' .*? '*/' -> channel(HIDDEN);
-LINE_COMMENT : '//' ~[\r\n]* -> channel(HIDDEN);
+WS           : [ \t]+        -> skip;
+NEWLINE      : [\r\n]+       -> skip;
+BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+LINE_COMMENT : '//' ~[\r\n]* -> skip;
 
 //=============================================================================

@@ -1,0 +1,207 @@
+// Code generated from TslParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
+
+package parser // TslParser
+import "github.com/antlr4-go/antlr/v4"
+
+// TslParserListener is a complete listener for a parse tree produced by TslParser.
+type TslParserListener interface {
+	antlr.ParseTreeListener
+
+	// EnterScript is called when entering the script production.
+	EnterScript(c *ScriptContext)
+
+	// EnterPackageDef is called when entering the packageDef production.
+	EnterPackageDef(c *PackageDefContext)
+
+	// EnterConstantsDef is called when entering the constantsDef production.
+	EnterConstantsDef(c *ConstantsDefContext)
+
+	// EnterConstantDef is called when entering the constantDef production.
+	EnterConstantDef(c *ConstantDefContext)
+
+	// EnterConstantValue is called when entering the constantValue production.
+	EnterConstantValue(c *ConstantValueContext)
+
+	// EnterTimeValue is called when entering the timeValue production.
+	EnterTimeValue(c *TimeValueContext)
+
+	// EnterDateValue is called when entering the dateValue production.
+	EnterDateValue(c *DateValueContext)
+
+	// EnterBoolValue is called when entering the boolValue production.
+	EnterBoolValue(c *BoolValueContext)
+
+	// EnterFunctionDef is called when entering the functionDef production.
+	EnterFunctionDef(c *FunctionDefContext)
+
+	// EnterClass is called when entering the class production.
+	EnterClass(c *ClassContext)
+
+	// EnterParameters is called when entering the parameters production.
+	EnterParameters(c *ParametersContext)
+
+	// EnterParameterDecl is called when entering the parameterDecl production.
+	EnterParameterDecl(c *ParameterDeclContext)
+
+	// EnterResults is called when entering the results production.
+	EnterResults(c *ResultsContext)
+
+	// EnterParamType is called when entering the paramType production.
+	EnterParamType(c *ParamTypeContext)
+
+	// EnterKeyType is called when entering the keyType production.
+	EnterKeyType(c *KeyTypeContext)
+
+	// EnterEnumDef is called when entering the enumDef production.
+	EnterEnumDef(c *EnumDefContext)
+
+	// EnterEnumItem is called when entering the enumItem production.
+	EnterEnumItem(c *EnumItemContext)
+
+	// EnterEnumValue is called when entering the enumValue production.
+	EnterEnumValue(c *EnumValueContext)
+
+	// EnterClassDef is called when entering the classDef production.
+	EnterClassDef(c *ClassDefContext)
+
+	// EnterProperty is called when entering the property production.
+	EnterProperty(c *PropertyContext)
+
+	// EnterBlock is called when entering the block production.
+	EnterBlock(c *BlockContext)
+
+	// EnterStatement is called when entering the statement production.
+	EnterStatement(c *StatementContext)
+
+	// EnterVarDeclaration is called when entering the varDeclaration production.
+	EnterVarDeclaration(c *VarDeclarationContext)
+
+	// EnterIfStatement is called when entering the ifStatement production.
+	EnterIfStatement(c *IfStatementContext)
+
+	// EnterElseIfBlock is called when entering the elseIfBlock production.
+	EnterElseIfBlock(c *ElseIfBlockContext)
+
+	// EnterElseBlock is called when entering the elseBlock production.
+	EnterElseBlock(c *ElseBlockContext)
+
+	// EnterFunctionCall is called when entering the functionCall production.
+	EnterFunctionCall(c *FunctionCallContext)
+
+	// EnterReturnStatement is called when entering the returnStatement production.
+	EnterReturnStatement(c *ReturnStatementContext)
+
+	// EnterExpression is called when entering the expression production.
+	EnterExpression(c *ExpressionContext)
+
+	// EnterIdentifierExpression is called when entering the identifierExpression production.
+	EnterIdentifierExpression(c *IdentifierExpressionContext)
+
+	// EnterFqIdentifier is called when entering the fqIdentifier production.
+	EnterFqIdentifier(c *FqIdentifierContext)
+
+	// EnterUnaryExpression is called when entering the unaryExpression production.
+	EnterUnaryExpression(c *UnaryExpressionContext)
+
+	// EnterExpressionInParenthesis is called when entering the expressionInParenthesis production.
+	EnterExpressionInParenthesis(c *ExpressionInParenthesisContext)
+
+	// ExitScript is called when exiting the script production.
+	ExitScript(c *ScriptContext)
+
+	// ExitPackageDef is called when exiting the packageDef production.
+	ExitPackageDef(c *PackageDefContext)
+
+	// ExitConstantsDef is called when exiting the constantsDef production.
+	ExitConstantsDef(c *ConstantsDefContext)
+
+	// ExitConstantDef is called when exiting the constantDef production.
+	ExitConstantDef(c *ConstantDefContext)
+
+	// ExitConstantValue is called when exiting the constantValue production.
+	ExitConstantValue(c *ConstantValueContext)
+
+	// ExitTimeValue is called when exiting the timeValue production.
+	ExitTimeValue(c *TimeValueContext)
+
+	// ExitDateValue is called when exiting the dateValue production.
+	ExitDateValue(c *DateValueContext)
+
+	// ExitBoolValue is called when exiting the boolValue production.
+	ExitBoolValue(c *BoolValueContext)
+
+	// ExitFunctionDef is called when exiting the functionDef production.
+	ExitFunctionDef(c *FunctionDefContext)
+
+	// ExitClass is called when exiting the class production.
+	ExitClass(c *ClassContext)
+
+	// ExitParameters is called when exiting the parameters production.
+	ExitParameters(c *ParametersContext)
+
+	// ExitParameterDecl is called when exiting the parameterDecl production.
+	ExitParameterDecl(c *ParameterDeclContext)
+
+	// ExitResults is called when exiting the results production.
+	ExitResults(c *ResultsContext)
+
+	// ExitParamType is called when exiting the paramType production.
+	ExitParamType(c *ParamTypeContext)
+
+	// ExitKeyType is called when exiting the keyType production.
+	ExitKeyType(c *KeyTypeContext)
+
+	// ExitEnumDef is called when exiting the enumDef production.
+	ExitEnumDef(c *EnumDefContext)
+
+	// ExitEnumItem is called when exiting the enumItem production.
+	ExitEnumItem(c *EnumItemContext)
+
+	// ExitEnumValue is called when exiting the enumValue production.
+	ExitEnumValue(c *EnumValueContext)
+
+	// ExitClassDef is called when exiting the classDef production.
+	ExitClassDef(c *ClassDefContext)
+
+	// ExitProperty is called when exiting the property production.
+	ExitProperty(c *PropertyContext)
+
+	// ExitBlock is called when exiting the block production.
+	ExitBlock(c *BlockContext)
+
+	// ExitStatement is called when exiting the statement production.
+	ExitStatement(c *StatementContext)
+
+	// ExitVarDeclaration is called when exiting the varDeclaration production.
+	ExitVarDeclaration(c *VarDeclarationContext)
+
+	// ExitIfStatement is called when exiting the ifStatement production.
+	ExitIfStatement(c *IfStatementContext)
+
+	// ExitElseIfBlock is called when exiting the elseIfBlock production.
+	ExitElseIfBlock(c *ElseIfBlockContext)
+
+	// ExitElseBlock is called when exiting the elseBlock production.
+	ExitElseBlock(c *ElseBlockContext)
+
+	// ExitFunctionCall is called when exiting the functionCall production.
+	ExitFunctionCall(c *FunctionCallContext)
+
+	// ExitReturnStatement is called when exiting the returnStatement production.
+	ExitReturnStatement(c *ReturnStatementContext)
+
+	// ExitExpression is called when exiting the expression production.
+	ExitExpression(c *ExpressionContext)
+
+	// ExitIdentifierExpression is called when exiting the identifierExpression production.
+	ExitIdentifierExpression(c *IdentifierExpressionContext)
+
+	// ExitFqIdentifier is called when exiting the fqIdentifier production.
+	ExitFqIdentifier(c *FqIdentifierContext)
+
+	// ExitUnaryExpression is called when exiting the unaryExpression production.
+	ExitUnaryExpression(c *UnaryExpressionContext)
+
+	// ExitExpressionInParenthesis is called when exiting the expressionInParenthesis production.
+	ExitExpressionInParenthesis(c *ExpressionInParenthesisContext)
+}

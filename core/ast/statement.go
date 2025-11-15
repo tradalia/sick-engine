@@ -1,0 +1,119 @@
+//=============================================================================
+/*
+Copyright © 2025 Andrea Carboni andrea.carboni71@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+//=============================================================================
+
+package ast
+
+//=============================================================================
+
+type Statement interface {
+	Execute() error
+}
+
+//=============================================================================
+
+type StatementBlock struct {
+	Statements []Statement
+}
+
+//=============================================================================
+
+func (b *StatementBlock) Add(s Statement) {
+	b.Statements = append(b.Statements, s)
+}
+
+//=============================================================================
+
+type VarDeclaration struct {
+	FQName     *FQIdentifier
+	Type       *Type
+	Expression Expression
+}
+
+//=============================================================================
+
+func (v *VarDeclaration) Execute() error {
+	return nil
+}
+
+//=============================================================================
+
+type IfStatement struct {
+	condBlocks []*ConditionalBlock
+}
+
+//=============================================================================
+
+func NewIfStatement() *IfStatement {
+	return &IfStatement{}
+}
+
+//=============================================================================
+
+func (s *IfStatement) AddConditionalBlock(cb *ConditionalBlock) {
+	s.condBlocks = append(s.condBlocks, cb)
+}
+
+//=============================================================================
+
+func (s *IfStatement) Execute() error {
+	return nil
+}
+
+//=============================================================================
+
+type ConditionalBlock struct {
+	condition  Condition
+	block     *StatementBlock
+}
+
+//=============================================================================
+
+func NewConditionalBlock(c Condition, b *StatementBlock) *ConditionalBlock {
+	return &ConditionalBlock{
+		condition: c,
+		block:     b,
+	}
+}
+
+//=============================================================================
+
+type ReturnStatement struct {
+	value Expression
+}
+
+//=============================================================================
+
+func NewReturnStatement(value Expression) *ReturnStatement {
+	return &ReturnStatement{
+		value: value,
+	}
+}
+
+//=============================================================================
+
+func (s *ReturnStatement) Execute() error {
+	return nil
+}
+
+//=============================================================================
