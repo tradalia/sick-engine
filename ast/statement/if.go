@@ -22,40 +22,14 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
+package statement
+
+import "github.com/tradalia/sick-engine/ast/expression"
 
 //=============================================================================
-
-type Statement interface {
-	Execute() error
-}
-
-//=============================================================================
-
-type StatementBlock struct {
-	Statements []Statement
-}
-
-//=============================================================================
-
-func (b *StatementBlock) Add(s Statement) {
-	b.Statements = append(b.Statements, s)
-}
-
-//=============================================================================
-
-type VarDeclaration struct {
-	FQName     *FQIdentifier
-	Type       *Type
-	Expression Expression
-}
-
-//=============================================================================
-
-func (v *VarDeclaration) Execute() error {
-	return nil
-}
-
+//===
+//=== If statement
+//===
 //=============================================================================
 
 type IfStatement struct {
@@ -81,39 +55,23 @@ func (s *IfStatement) Execute() error {
 }
 
 //=============================================================================
+//===
+//=== Conditional block
+//===
+//=============================================================================
 
 type ConditionalBlock struct {
-	condition  Condition
-	block     *StatementBlock
+	condition  expression.Expression
+	block      *Block
 }
 
 //=============================================================================
 
-func NewConditionalBlock(c Condition, b *StatementBlock) *ConditionalBlock {
+func NewConditionalBlock(c expression.Expression, b *Block) *ConditionalBlock {
 	return &ConditionalBlock{
 		condition: c,
 		block:     b,
 	}
-}
-
-//=============================================================================
-
-type ReturnStatement struct {
-	value Expression
-}
-
-//=============================================================================
-
-func NewReturnStatement(value Expression) *ReturnStatement {
-	return &ReturnStatement{
-		value: value,
-	}
-}
-
-//=============================================================================
-
-func (s *ReturnStatement) Execute() error {
-	return nil
 }
 
 //=============================================================================

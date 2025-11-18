@@ -19,18 +19,6 @@ type TslParserListener interface {
 	// EnterConstantDef is called when entering the constantDef production.
 	EnterConstantDef(c *ConstantDefContext)
 
-	// EnterConstantValue is called when entering the constantValue production.
-	EnterConstantValue(c *ConstantValueContext)
-
-	// EnterTimeValue is called when entering the timeValue production.
-	EnterTimeValue(c *TimeValueContext)
-
-	// EnterDateValue is called when entering the dateValue production.
-	EnterDateValue(c *DateValueContext)
-
-	// EnterBoolValue is called when entering the boolValue production.
-	EnterBoolValue(c *BoolValueContext)
-
 	// EnterFunctionDef is called when entering the functionDef production.
 	EnterFunctionDef(c *FunctionDefContext)
 
@@ -46,8 +34,8 @@ type TslParserListener interface {
 	// EnterResults is called when entering the results production.
 	EnterResults(c *ResultsContext)
 
-	// EnterParamType is called when entering the paramType production.
-	EnterParamType(c *ParamTypeContext)
+	// EnterType is called when entering the type production.
+	EnterType(c *TypeContext)
 
 	// EnterKeyType is called when entering the keyType production.
 	EnterKeyType(c *KeyTypeContext)
@@ -97,6 +85,12 @@ type TslParserListener interface {
 	// EnterIdentifierExpression is called when entering the identifierExpression production.
 	EnterIdentifierExpression(c *IdentifierExpressionContext)
 
+	// EnterInBarExpression is called when entering the inBarExpression production.
+	EnterInBarExpression(c *InBarExpressionContext)
+
+	// EnterParamsExpression is called when entering the paramsExpression production.
+	EnterParamsExpression(c *ParamsExpressionContext)
+
 	// EnterFqIdentifier is called when entering the fqIdentifier production.
 	EnterFqIdentifier(c *FqIdentifierContext)
 
@@ -105,6 +99,39 @@ type TslParserListener interface {
 
 	// EnterExpressionInParenthesis is called when entering the expressionInParenthesis production.
 	EnterExpressionInParenthesis(c *ExpressionInParenthesisContext)
+
+	// EnterConstantValueExpression is called when entering the constantValueExpression production.
+	EnterConstantValueExpression(c *ConstantValueExpressionContext)
+
+	// EnterTimeValue is called when entering the timeValue production.
+	EnterTimeValue(c *TimeValueContext)
+
+	// EnterDateValue is called when entering the dateValue production.
+	EnterDateValue(c *DateValueContext)
+
+	// EnterBoolValue is called when entering the boolValue production.
+	EnterBoolValue(c *BoolValueContext)
+
+	// EnterErrorValue is called when entering the errorValue production.
+	EnterErrorValue(c *ErrorValueContext)
+
+	// EnterListValue is called when entering the listValue production.
+	EnterListValue(c *ListValueContext)
+
+	// EnterInitialListValues is called when entering the initialListValues production.
+	EnterInitialListValues(c *InitialListValuesContext)
+
+	// EnterMapValue is called when entering the mapValue production.
+	EnterMapValue(c *MapValueContext)
+
+	// EnterInitialMapValues is called when entering the initialMapValues production.
+	EnterInitialMapValues(c *InitialMapValuesContext)
+
+	// EnterKeyValueCouple is called when entering the keyValueCouple production.
+	EnterKeyValueCouple(c *KeyValueCoupleContext)
+
+	// EnterKeyValue is called when entering the keyValue production.
+	EnterKeyValue(c *KeyValueContext)
 
 	// ExitScript is called when exiting the script production.
 	ExitScript(c *ScriptContext)
@@ -117,18 +144,6 @@ type TslParserListener interface {
 
 	// ExitConstantDef is called when exiting the constantDef production.
 	ExitConstantDef(c *ConstantDefContext)
-
-	// ExitConstantValue is called when exiting the constantValue production.
-	ExitConstantValue(c *ConstantValueContext)
-
-	// ExitTimeValue is called when exiting the timeValue production.
-	ExitTimeValue(c *TimeValueContext)
-
-	// ExitDateValue is called when exiting the dateValue production.
-	ExitDateValue(c *DateValueContext)
-
-	// ExitBoolValue is called when exiting the boolValue production.
-	ExitBoolValue(c *BoolValueContext)
 
 	// ExitFunctionDef is called when exiting the functionDef production.
 	ExitFunctionDef(c *FunctionDefContext)
@@ -145,8 +160,8 @@ type TslParserListener interface {
 	// ExitResults is called when exiting the results production.
 	ExitResults(c *ResultsContext)
 
-	// ExitParamType is called when exiting the paramType production.
-	ExitParamType(c *ParamTypeContext)
+	// ExitType is called when exiting the type production.
+	ExitType(c *TypeContext)
 
 	// ExitKeyType is called when exiting the keyType production.
 	ExitKeyType(c *KeyTypeContext)
@@ -196,6 +211,12 @@ type TslParserListener interface {
 	// ExitIdentifierExpression is called when exiting the identifierExpression production.
 	ExitIdentifierExpression(c *IdentifierExpressionContext)
 
+	// ExitInBarExpression is called when exiting the inBarExpression production.
+	ExitInBarExpression(c *InBarExpressionContext)
+
+	// ExitParamsExpression is called when exiting the paramsExpression production.
+	ExitParamsExpression(c *ParamsExpressionContext)
+
 	// ExitFqIdentifier is called when exiting the fqIdentifier production.
 	ExitFqIdentifier(c *FqIdentifierContext)
 
@@ -204,4 +225,37 @@ type TslParserListener interface {
 
 	// ExitExpressionInParenthesis is called when exiting the expressionInParenthesis production.
 	ExitExpressionInParenthesis(c *ExpressionInParenthesisContext)
+
+	// ExitConstantValueExpression is called when exiting the constantValueExpression production.
+	ExitConstantValueExpression(c *ConstantValueExpressionContext)
+
+	// ExitTimeValue is called when exiting the timeValue production.
+	ExitTimeValue(c *TimeValueContext)
+
+	// ExitDateValue is called when exiting the dateValue production.
+	ExitDateValue(c *DateValueContext)
+
+	// ExitBoolValue is called when exiting the boolValue production.
+	ExitBoolValue(c *BoolValueContext)
+
+	// ExitErrorValue is called when exiting the errorValue production.
+	ExitErrorValue(c *ErrorValueContext)
+
+	// ExitListValue is called when exiting the listValue production.
+	ExitListValue(c *ListValueContext)
+
+	// ExitInitialListValues is called when exiting the initialListValues production.
+	ExitInitialListValues(c *InitialListValuesContext)
+
+	// ExitMapValue is called when exiting the mapValue production.
+	ExitMapValue(c *MapValueContext)
+
+	// ExitInitialMapValues is called when exiting the initialMapValues production.
+	ExitInitialMapValues(c *InitialMapValuesContext)
+
+	// ExitKeyValueCouple is called when exiting the keyValueCouple production.
+	ExitKeyValueCouple(c *KeyValueCoupleContext)
+
+	// ExitKeyValue is called when exiting the keyValue production.
+	ExitKeyValue(c *KeyValueContext)
 }

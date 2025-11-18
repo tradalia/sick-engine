@@ -22,78 +22,81 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
+package core
 
 import (
+	"fmt"
 	"strings"
 )
 
 //=============================================================================
 //===
-//=== Function
+//=== Parse error
 //===
 //=============================================================================
 
-type Function struct {
-	name     string
-	class    string
-	params   []*Param
-	returns  []*Type
-	block    *StatementBlock
+type ParseErrors struct {
+	Filename string
+	Errors   []*ParseError
 }
 
 //=============================================================================
 
-func NewFunction(name string) *Function {
-	return &Function{
-		name : name,
+func NewParseErrors(filename string) *ParseErrors {
+	return &ParseErrors{
+		Filename: filename,
 	}
 }
+
 //=============================================================================
 
-func (f *Function) Id() string {
-	sb := strings.Builder{}
-	sb.WriteString(f.name)
-	sb.WriteString("|")
+func (pe *ParseErrors) AddError(p *ParseError) {
+	pe.Errors = append(pe.Errors, p)
+}
 
-	for _,p := range f.params {
-		sb.WriteString("|")
-		sb.WriteString(p.Type.Name)
+//=============================================================================
+
+func (pe *ParseErrors) IsEmpty() bool {
+	return len(pe.Errors) == 0
+}
+
+//=============================================================================
+
+func (pe *ParseErrors) String() string {
+	var sb strings.Builder
+
+	sb.WriteString(fmt.Sprintf("\nFile: %s\n", pe.Filename))
+	for _, err := range pe.Errors {
+		sb.WriteString(err.String() + "\n")
 	}
 
 	return sb.String()
 }
 
 //=============================================================================
-
-func (f *Function) AddParam(p *Param) {
-	f.params = append(f.params, p)
-}
-
-//=============================================================================
-
-func (f *Function) AddReturnType(t *Type) {
-	f.returns = append(f.returns, t)
-}
-
-//=============================================================================
 //===
-//=== Param
+//=== Parse error
 //===
 //=============================================================================
 
-type Param struct {
-	Name  string
-	Type  *Type
+type ParseError struct {
+	Line   int
+	Column int
+	Error  string
 }
 
 //=============================================================================
 
-func NewParam(name string, t *Type) *Param {
-	return &Param{
-		Name: name,
-		Type: t,
-	}
+func NewParseError(line int, column int, err string) *ParseError {
+	return &ParseError{ line, column, err}
+}
+
+//=============================================================================
+
+func (pe *ParseError) String() string {
+	var sb strings.Builder
+	sb.WriteString(fmt.Sprintf("Line: %d, Col: %d, Error: %s", pe.Line, pe.Column, pe.Error))
+	return sb.String()
 }
 
 //=============================================================================

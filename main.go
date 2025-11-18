@@ -25,29 +25,94 @@ THE SOFTWARE.
 package main
 
 import (
-	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/antlr4-go/antlr/v4"
-	"github.com/tradalia/sick-engine/core/ast"
+	"github.com/tradalia/sick-engine/ast"
+	"github.com/tradalia/sick-engine/core"
 	"github.com/tradalia/sick-engine/parser"
 )
 
 //=============================================================================
 
 func main() {
-	filename := os.Args[1]
-	res := ParseFile(filename)
-	if res.Errors != nil {
-		for _, err := range res.Errors {
-			fmt.Println(err)
-		}
-		return
+	//filename := os.Args[1]
+	//res := ParseFile(filename)
+	//if res.Errors != nil {
+	//	return
+	//}
+	//
+	//println(res.Script)
+
+	e, errs := CreateEnvironment("sample")
+	if !errs.IsEmpty() {
+		println(errs.String())
+	} else {
+		_ = e
+		println("Environment created")
+	}
+}
+
+//=============================================================================
+//===
+//=== Environment creation
+//===
+//=============================================================================
+
+func CreateEnvironment(path string) (*core.Environment,*core.ParseErrors) {
+	pr := core.NewParseErrors(path)
+
+	files,err := findFiles(path, ".tsl")
+	if err != nil {
+		pe := core.NewParseError(-1, -1, err.Error())
+		pr.AddError(pe)
+		return nil,pr
 	}
 
-	println(res.Script)
+	e := core.NewEnvironment()
+
+	for _,file := range files {
+		script,errs := ParseFile(file)
+		if !errs.IsEmpty() {
+			return nil,errs
+		}
+
+		errs = e.AddScript(script)
+		if !errs.IsEmpty() {
+			return nil,errs
+		}
+	}
+
+	return e,pr
+}
+
+//=============================================================================
+
+func findFiles(path string, suffix string) ([]string, error) {
+	var list []string
+
+	err := filepath.Walk(path, func(file string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if file == path {
+			return nil
+		}
+
+		if !info.IsDir() {
+			if strings.HasSuffix(file, suffix) {
+				list = append(list, file)
+			}
+		}
+
+		return nil
+	})
+
+	return list,err
 }
 
 //=============================================================================
@@ -56,13 +121,13 @@ func main() {
 //===
 //=============================================================================
 
-func ParseFile(filename string) *ParseResult {
+func ParseFile(filename string) (*ast.Script, *core.ParseErrors) {
 	stream,err := antlr.NewFileStream(filename)
 	if err != nil {
-		pr := &ParseResult{}
-		pe := NewParseError(-1, -1, err.Error())
+		pr := core.NewParseErrors(filename)
+		pe := core.NewParseError(-1, -1, err.Error())
 		pr.AddError(pe)
-		return pr
+		return nil,pr
 	}
 
 	return parse(stream)
@@ -70,25 +135,25 @@ func ParseFile(filename string) *ParseResult {
 
 //=============================================================================
 
-func ParseString(input string) *ParseResult {
+func ParseString(input string) (*ast.Script, *core.ParseErrors) {
 	return parse(antlr.NewInputStream(input))
 }
 
 //=============================================================================
 
-func ParseReader(r io.Reader) *ParseResult {
+func ParseReader(r io.Reader) (*ast.Script, *core.ParseErrors) {
 	return parse(antlr.NewIoStream(r))
 }
 
 //=============================================================================
 
-func parse(input antlr.CharStream) *ParseResult {
+func parse(input antlr.CharStream) (*ast.Script, *core.ParseErrors) {
 	lexer  := parser.NewTslLexer(input)
 	stream := antlr .NewCommonTokenStream(lexer,0)
 	p      := parser.NewTslParser(stream)
 
-	res := &ParseResult{}
-	lis := NewParseErrorListener(res)
+	res := core.NewParseErrors(input.GetSourceName())
+	lis := core.NewParseErrorListener(res)
 
 	//--- Add error collection listener
 	p.RemoveErrorListeners()
@@ -97,92 +162,13 @@ func parse(input antlr.CharStream) *ParseResult {
 	//--- Ask the parser to report all ambiguities
 	p.GetInterpreter().SetPredictionMode(antlr.PredictionModeLLExactAmbigDetection)
 	tree := p.Script()
+	if !res.IsEmpty() {
+		return nil,res
+	}
 
 	script := ast.Build(tree)
-	res.Script = script
-	return res
-}
 
-//=============================================================================
-//===
-//=== Parse result
-//===
-//=============================================================================
-
-type ParseResult struct {
-	Script *ast.Script
-	Errors []*ParseError
-}
-
-//=============================================================================
-
-func (pr *ParseResult) AddError(pe *ParseError) {
-	pr.Errors = append(pr.Errors, pe)
-}
-
-//=============================================================================
-
-type ParseError struct {
-	Line    int
-	Column  int
-	Error string
-}
-
-//=============================================================================
-
-func NewParseError(line int, column int, err string) *ParseError {
-	return &ParseError{line, column, err}
-}
-
-//=============================================================================
-
-func (pe *ParseError) String() string {
-	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("Line:%d, Col:%d, Error: %s", pe.Line, pe.Column, pe.Error))
-	return sb.String()
-}
-
-//=============================================================================
-//===
-//=== Error listener
-//===
-//=============================================================================
-
-type ParseErrorListener struct {
-	result *ParseResult
-}
-
-//=============================================================================
-
-func NewParseErrorListener(result *ParseResult) *ParseErrorListener {
-	return &ParseErrorListener{
-		result: result,
-	}
-}
-
-//=============================================================================
-
-func (l *ParseErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
-	pe := NewParseError(line,column, msg)
-	l.result.AddError(pe)
-}
-
-//=============================================================================
-
-func (l *ParseErrorListener) ReportAmbiguity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, exact bool, ambigAlts *antlr.BitSet, configs *antlr.ATNConfigSet) {
-	println("Ambiguity")
-}
-
-//=============================================================================
-
-func (l *ParseErrorListener) ReportAttemptingFullContext(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex int, conflictingAlts *antlr.BitSet, configs *antlr.ATNConfigSet) {
-	println("Attempting full context")
-}
-
-//=============================================================================
-
-func (l *ParseErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex, prediction int, configs *antlr.ATNConfigSet) {
-	println("Context sensitivity")
+	return script,res
 }
 
 //=============================================================================

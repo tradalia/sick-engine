@@ -22,71 +22,43 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
+package statement
+
+import "github.com/tradalia/sick-engine/ast/expression"
 
 //=============================================================================
+//===
+//=== Variable declaration statement
+//===
+//=============================================================================
 
-type Script struct {
-	PackageName string
-	Constants   []*Constant
-	Functions   []*Function
-	Enums       []*Enum
-	Classes     []*Class
+type VarDeclaration struct {
+	FQNames     []*expression.FQIdentifier
+	Expressions []expression.Expression
 }
 
 //=============================================================================
 
-func NewScript() *Script {
-	return &Script{}
+func NewVarDeclaration() *VarDeclaration {
+	return &VarDeclaration{}
 }
 
 //=============================================================================
 
-func (s *Script) AddConstant(c *Constant) {
-	s.Constants = append(s.Constants, c)
+func (v *VarDeclaration) AddName(fqName *expression.FQIdentifier) {
+	v.FQNames = append(v.FQNames, fqName)
 }
 
 //=============================================================================
 
-func (s *Script) AddFunction(f *Function) {
-	s.Functions = append(s.Functions, f)
+func (v *VarDeclaration) AddExpression(e expression.Expression) {
+	v.Expressions = append(v.Expressions, e)
 }
 
 //=============================================================================
 
-func (s *Script) AddEnum(e *Enum) {
-	s.Enums = append(s.Enums, e)
-}
-
-//=============================================================================
-
-func (s *Script) AddClass(c *Class) {
-	s.Classes = append(s.Classes, c)
-}
-
-//=============================================================================
-
-type Constant struct {
-	Name  string
-	Value any
-}
-
-//=============================================================================
-
-type FQIdentifier struct {
-	scopes []string
-}
-
-//=============================================================================
-
-func NewFQIdentifier() *FQIdentifier {
-	return &FQIdentifier{}
-}
-
-//=============================================================================
-
-func (i *FQIdentifier) AddScope(name string) {
-	i.scopes = append(i.scopes, name)
+func (v *VarDeclaration) Execute() error {
+	return nil
 }
 
 //=============================================================================

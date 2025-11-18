@@ -1,6 +1,6 @@
 //=============================================================================
 /*
-Copyright © 2025 Andrea Carboni andrea.carboni71@gmail.com
+Copyright © 2024 Andrea Carboni andrea.carboni71@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,43 +22,50 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
+package datatype
+
+import "fmt"
 
 //=============================================================================
 
-type Class struct {
-	Name       string
-	Properties []*Property
+type Date struct {
+	Year  int `json:"year"`
+	Month int `json:"month"`
+	Day   int `json:"day"`
 }
 
 //=============================================================================
 
-func NewClass(name string) *Class {
-	return &Class{
-		Name: name,
+func NewDate(year int, month int, day int) *Date {
+	return &Date{
+		Year : year,
+		Month: month,
+		Day  : day,
 	}
 }
 
 //=============================================================================
 
-func (c *Class) AddProperty(p *Property) {
-	c.Properties = append(c.Properties, p)
-}
-
-//=============================================================================
-
-type Property struct {
-	Name  string
-	Type  *Type
-}
-
-//=============================================================================
-
-func NewProperty(name string, typ *Type) *Property {
-	return &Property{
-		Name:  name,
-		Type:  typ,
+func (d *Date) IsValid() bool {
+	if d.Year < 0 {
+		return false
 	}
+
+	if d.Month < 1 || d.Month > 12 {
+		return false
+	}
+
+	if d.Day < 1 || d.Day > 31 {
+		return false
+	}
+
+	return true
+}
+
+//=============================================================================
+
+func (d *Date) String() string {
+	return fmt.Sprintf("%4d-%2d-%2d", d.Year, d.Month, d.Day)
 }
 
 //=============================================================================

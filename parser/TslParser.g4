@@ -47,30 +47,12 @@ packageDef
 //=============================================================================
 
 constantsDef
-    : CONST L_PAREN ( constantDef )* R_PAREN
+    : CONST L_CURLY ( constantDef )* R_CURLY
     ;
 
 constantDef
-    : IDENTIFIER EQUAL constantValue
+    : IDENTIFIER EQUAL expression
     ;
-
-constantValue
-    : INT_VALUE
-    | REAL_VALUE
-    | timeValue
-    | dateValue
-    | STRING_VALUE
-    | boolValue
-    ;
-
-timeValue
-    : APOS INT_VALUE COLON INT_VALUE APOS;
-
-dateValue
-    : APOS INT_VALUE MINUS INT_VALUE MINUS INT_VALUE APOS;
-
-boolValue
-    : TRUE | FALSE ;
 
 //=============================================================================
 
@@ -87,14 +69,20 @@ parameters
     ;
 
 parameterDecl
-    : IDENTIFIER paramType
+    : IDENTIFIER type
     ;
 
 results
-    : paramType (COMMA paramType)*
+    : type (COMMA type)*
     ;
 
-paramType
+//=============================================================================
+//===
+//=== Types
+//===
+//=============================================================================
+
+type
     : INT
     | REAL
     | BOOL
@@ -104,8 +92,8 @@ paramType
     | TIMESERIES
     | fqIdentifier
     | ERROR
-    | MAP OF keyType COLON paramType
-    | LIST OF paramType
+    | MAP OF keyType COLON type
+    | LIST OF type
     ;
 
 keyType
@@ -131,10 +119,10 @@ enumValue
 //=============================================================================
 
 classDef
-    : CLASS IDENTIFIER L_CURLY (property)+ R_CURLY;
+    : CLASS IDENTIFIER L_CURLY (property)* R_CURLY;
 
 property
-    : IDENTIFIER paramType
+    : IDENTIFIER type
     ;
 
 //=============================================================================
@@ -158,7 +146,7 @@ statement
 //=============================================================================
 
 varDeclaration
-    : fqIdentifier EQUAL expression
+    : fqIdentifier ( COMMA fqIdentifier)* EQUAL expression ( COMMA expression)*
     ;
 
 //=============================================================================
@@ -174,12 +162,15 @@ elseBlock : ELSE block;
 //=============================================================================
 
 functionCall
-    : fqIdentifier L_PAREN (expression (COMMA expression)* )? R_PAREN
+    : fqIdentifier paramsExpression
     ;
 
 //=============================================================================
 
-returnStatement : RETURN expression;
+returnStatement
+    : RETURN
+    | RETURN expression ( COMMA expression)*
+    ;
 
 //=============================================================================
 //===
@@ -191,8 +182,7 @@ expression
     : identifierExpression
     | expressionInParenthesis
     | unaryExpression
-    | functionCall
-    | constantValue
+    | constantValueExpression
     | expression (STAR | SLASH) expression
     | expression (PLUS | MINUS) expression
     | expression ( EQUAL | NOT_EQUAL | LESS_THAN | LESS_OR_EQUAL | GREATER_THAN | GREATER_OR_EQUAL ) expression
@@ -201,7 +191,15 @@ expression
     ;
 
 identifierExpression
-    : fqIdentifier ( IN_BAR expression )?
+    : fqIdentifier ( inBarExpression | paramsExpression )?
+    ;
+
+inBarExpression
+    : IN_BAR expression
+    ;
+
+paramsExpression
+    : L_PAREN (expression (COMMA expression)* )? R_PAREN
     ;
 
 fqIdentifier
@@ -215,5 +213,59 @@ unaryExpression
 expressionInParenthesis
     : L_PAREN expression R_PAREN;
 
+
+//=============================================================================
+
+constantValueExpression
+    : INT_VALUE
+    | REAL_VALUE
+    | boolValue
+    | STRING_VALUE
+    | timeValue
+    | dateValue
+    | errorValue
+    | listValue
+    | mapValue
+    ;
+
+timeValue
+    : APOS INT_VALUE COLON INT_VALUE APOS;
+
+dateValue
+    : APOS INT_VALUE MINUS INT_VALUE MINUS INT_VALUE APOS;
+
+boolValue
+    : TRUE | FALSE ;
+
+errorValue
+    : ERROR L_PAREN STRING_VALUE R_PAREN;
+
+listValue
+    : LIST OF L_PAREN type R_PAREN initialListValues?
+    ;
+
+initialListValues
+    : L_CURLY expression ( COMMA expression)* R_CURLY
+    ;
+
+mapValue
+    : MAP OF L_PAREN keyType COMMA type R_PAREN initialMapValues?
+    ;
+
+initialMapValues
+    : L_CURLY keyValueCouple ( COMMA keyValueCouple)* R_CURLY
+    ;
+
+keyValueCouple
+    : keyValue COLON expression
+    ;
+
+keyValue
+    : INT_VALUE
+    | boolValue
+    | STRING_VALUE
+    | timeValue
+    | dateValue
+    ;
 
 //=============================================================================

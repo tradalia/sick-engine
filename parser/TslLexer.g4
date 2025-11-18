@@ -43,6 +43,16 @@ NULL     : 'null';
 THIS     : 'this';
 OF       : 'of';
 
+BUY         : 'buy';
+SELL        : 'sell';
+SELL_SHORT  : 'sellShort';
+BUY_TO_COVER: 'buyToCover';
+AT          : 'at';
+MARKET      : 'market';
+STOP        : 'stop';
+LIMIT       : 'limit';
+CONTRACTS   : 'contracts';
+
 //--- Datatypes ---
 
 INT        : 'int';

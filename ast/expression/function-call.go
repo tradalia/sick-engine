@@ -22,77 +22,44 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
+package expression
 
 //=============================================================================
-
-const (
-	TypeInt        =  0
-	TypeReal       =  1
-	TypeBool       =  2
-	TypeString     =  3
-	TypeTime       =  4
-	TypeDate       =  5
-	TypeTimeseries =  6
-	TypeEnum       =  7
-	TypeClass      =  8
-	TypeList       =  9
-	TypeMap        = 10
-	TypeError      = 11
-)
-
+//===
+//=== Function call
+//===
 //=============================================================================
 
-type Type struct {
-	Code int8
-	Name string
+type FunctionCallExpression struct {
+	FQName      *FQIdentifier
+	Expressions []Expression
 }
 
 //=============================================================================
 
-var IntType        = &Type{ Code: TypeInt,        Name: "int",        }
-var RealType       = &Type{ Code: TypeReal,       Name: "real",       }
-var BoolType       = &Type{ Code: TypeBool,       Name: "bool",       }
-var StringType     = &Type{ Code: TypeString,     Name: "string",     }
-var TimeType       = &Type{ Code: TypeTime,       Name: "time",       }
-var DateType       = &Type{ Code: TypeDate,       Name: "date",       }
-var TimeseriesType = &Type{ Code: TypeTimeseries, Name: "timeseries", }
-var ErrorType      = &Type{ Code: TypeError,      Name: "error",      }
-
-//=============================================================================
-
-func NewEnumType(name string) *Type {
-	return &Type{
-		Code: TypeEnum,
-		Name: name,
+func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
+	return &FunctionCallExpression{
+		FQName     : name,
+		Expressions: list,
 	}
 }
 
 //=============================================================================
 
-func NewClassType(name string) *Type {
-	return &Type{
-		Code: TypeClass,
-		Name: name,
-	}
+func (e *FunctionCallExpression) AddExpression(ex Expression) {
+	e.Expressions = append(e.Expressions, ex)
 }
 
 //=============================================================================
 
-func NewListType() *Type {
-	return &Type{
-		Code: TypeList,
-		Name: "list",
-	}
+func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
+	return nil,nil
 }
 
 //=============================================================================
 
-func NewMapType() *Type {
-	return &Type{
-		Code: TypeMap,
-		Name: "map",
-	}
+func (e *FunctionCallExpression) Type() *Type {
+	return nil
 }
 
 //=============================================================================
