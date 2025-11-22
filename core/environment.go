@@ -27,6 +27,7 @@ package core
 import (
 	"github.com/tradalia/sick-engine/ast"
 	"github.com/tradalia/sick-engine/ast/expression"
+	"github.com/tradalia/sick-engine/datatype"
 )
 
 //=============================================================================
@@ -36,20 +37,18 @@ import (
 //=============================================================================
 
 type Environment struct {
-	constants map[string]*ast.Constant
 	functions map[string]*ast.Function
-	enums     map[string]*ast.Enum
-	classes   map[string]*ast.Class
+	classes   map[string]*datatype.ClassType
+	callStack *CallStack
 }
 
 //=============================================================================
 
 func NewEnvironment() *Environment {
 	return &Environment{
-		constants: make(map[string]*ast.Constant),
 		functions: make(map[string]*ast.Function),
-		enums    : make(map[string]*ast.Enum),
-		classes  : make(map[string]*ast.Class),
+		classes  : make(map[string]*datatype.ClassType),
+		callStack: NewCallStack(),
 	}
 }
 
@@ -61,6 +60,10 @@ func (e *Environment) AddScript(s *ast.Script) *ParseErrors {
 	for _,c := range s.Constants {
 		e.addConstant(s.PackageName, c, pes)
 	}
+
+//	for _,v := range s.Variables {
+//		e.addVariable(s.PackageName, v, pes)
+//	}
 
 	for _,f := range s.Functions {
 		e.addFunction(s.PackageName, f, pes)
@@ -81,13 +84,13 @@ func (e *Environment) AddScript(s *ast.Script) *ParseErrors {
 
 func (e *Environment) addConstant(pac string, c *ast.Constant, pes *ParseErrors) {
 
-	fqn := pac + "." + c.Name
+	//fqn := pac + "." + c.Name
 
-	if _, ok := e.constants[fqn]; ok {
-		pe := NewParseError(-1, -1, "constant name already exists: " + fqn)
-		pes.AddError(pe)
-		return
-	}
+	//if _, ok := e.constants[fqn]; ok {
+	//	pe := NewParseError(-1, -1, "constant name already exists: " + fqn)
+	//	pes.AddError(pe)
+	//	return
+	//}
 
 	//pe := checkValueValidity(c.Value)
 	//if pe != nil {
@@ -95,7 +98,7 @@ func (e *Environment) addConstant(pac string, c *ast.Constant, pes *ParseErrors)
 	//	return
 	//}
 
-	e.constants[fqn] = c
+	//e.constants[fqn] = c
 }
 
 //=============================================================================
@@ -106,13 +109,13 @@ func (e *Environment) addFunction(pac string, f *ast.Function, pes *ParseErrors)
 
 //=============================================================================
 
-func (e *Environment) addEnum(pac string, en *ast.Enum, pes *ParseErrors) {
+func (e *Environment) addEnum(pac string, en *datatype.EnumType, pes *ParseErrors) {
 
 }
 
 //=============================================================================
 
-func (e *Environment) addClass(pac string, c *ast.Class, pes *ParseErrors) {
+func (e *Environment) addClass(pac string, c *datatype.ClassType, pes *ParseErrors) {
 
 }
 

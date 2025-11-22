@@ -33,7 +33,7 @@ import "github.com/tradalia/sick-engine/ast/expression"
 //=============================================================================
 
 type VarDeclaration struct {
-	FQNames     []*expression.FQIdentifier
+	Identifiers []*expression.IdentifierExpression
 	Expressions []expression.Expression
 }
 
@@ -45,8 +45,8 @@ func NewVarDeclaration() *VarDeclaration {
 
 //=============================================================================
 
-func (v *VarDeclaration) AddName(fqName *expression.FQIdentifier) {
-	v.FQNames = append(v.FQNames, fqName)
+func (v *VarDeclaration) AddIdentifier(id *expression.IdentifierExpression) {
+	v.Identifiers = append(v.Identifiers, id)
 }
 
 //=============================================================================

@@ -22,46 +22,37 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package datatype
 
 //=============================================================================
 //===
-//=== Function call
+//=== Real
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type RealType struct {
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
-	}
+var realType = &RealType{}
+
+//=============================================================================
+
+func NewRealType() *RealType {
+	return realType
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (RealType) Id() int8 {
+	return idReal
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (RealType) String() string {
+	return "real"
 }
 
 //=============================================================================

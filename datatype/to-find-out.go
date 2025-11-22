@@ -22,45 +22,36 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
-
-import "github.com/tradalia/sick-engine/ast/expression"
+package datatype
 
 //=============================================================================
+//===
+//=== ToFindOut
+//===
+//=============================================================================
 
-type Class struct {
-	Name       string
-	Properties []*Property
+type ToFindOutType struct {
+	name string
 }
 
 //=============================================================================
 
-func NewClass(name string) *Class {
-	return &Class{
-		Name: name,
+func NewToFindOutType(name string) *ToFindOutType {
+	return &ToFindOutType{
+		name: name,
 	}
 }
 
 //=============================================================================
 
-func (c *Class) AddProperty(p *Property) {
-	c.Properties = append(c.Properties, p)
+func (ToFindOutType) Id() int8 {
+	return idToFindOut
 }
 
 //=============================================================================
 
-type Property struct {
-	Name  string
-	Type  *expression.Type
-}
-
-//=============================================================================
-
-func NewProperty(name string, typ *expression.Type) *Property {
-	return &Property{
-		Name:  name,
-		Type:  typ,
-	}
+func (ToFindOutType) String() string {
+	return "tfo"
 }
 
 //=============================================================================

@@ -26,14 +26,12 @@ package main
 
 import (
 	"io"
-	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/tradalia/sick-engine/ast"
 	"github.com/tradalia/sick-engine/core"
 	"github.com/tradalia/sick-engine/parser"
+	"github.com/tradalia/sick-engine/tool"
 )
 
 //=============================================================================
@@ -65,7 +63,7 @@ func main() {
 func CreateEnvironment(path string) (*core.Environment,*core.ParseErrors) {
 	pr := core.NewParseErrors(path)
 
-	files,err := findFiles(path, ".tsl")
+	files,err := tool.FindFiles(path, ".tsl")
 	if err != nil {
 		pe := core.NewParseError(-1, -1, err.Error())
 		pr.AddError(pe)
@@ -87,32 +85,6 @@ func CreateEnvironment(path string) (*core.Environment,*core.ParseErrors) {
 	}
 
 	return e,pr
-}
-
-//=============================================================================
-
-func findFiles(path string, suffix string) ([]string, error) {
-	var list []string
-
-	err := filepath.Walk(path, func(file string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if file == path {
-			return nil
-		}
-
-		if !info.IsDir() {
-			if strings.HasSuffix(file, suffix) {
-				list = append(list, file)
-			}
-		}
-
-		return nil
-	})
-
-	return list,err
 }
 
 //=============================================================================

@@ -31,7 +31,7 @@ options {
 //=============================================================================
 
 script
-    : packageDef? ( constantsDef | functionDef | enumDef | classDef )*
+    : packageDef? ( constantsDef | variablesDef | functionDef | enumDef | classDef )*
     ;
 
 //=============================================================================
@@ -47,10 +47,20 @@ packageDef
 //=============================================================================
 
 constantsDef
-    : CONST L_CURLY ( constantDef )* R_CURLY
+    : CONST ( L_CURLY ( constantDef )* R_CURLY | constantDef )
     ;
 
 constantDef
+    : IDENTIFIER EQUAL expression
+    ;
+
+//=============================================================================
+
+variablesDef
+    : VAR ( L_CURLY ( variableDef )* R_CURLY | variableDef )
+    ;
+
+variableDef
     : IDENTIFIER EQUAL expression
     ;
 
@@ -77,34 +87,6 @@ results
     ;
 
 //=============================================================================
-//===
-//=== Types
-//===
-//=============================================================================
-
-type
-    : INT
-    | REAL
-    | BOOL
-    | STRING
-    | TIME
-    | DATE
-    | TIMESERIES
-    | fqIdentifier
-    | ERROR
-    | MAP OF keyType COLON type
-    | LIST OF type
-    ;
-
-keyType
-    : INT
-    | BOOL
-    | STRING
-    | TIME
-    | DATE
-    ;
-
-//=============================================================================
 
 enumDef
     : ENUM IDENTIFIER L_CURLY (enumItem)+ R_CURLY;
@@ -123,6 +105,42 @@ classDef
 
 property
     : IDENTIFIER type
+    ;
+
+//=============================================================================
+//===
+//=== Types
+//===
+//=============================================================================
+
+type
+    : INT
+    | REAL
+    | BOOL
+    | STRING
+    | TIME
+    | DATE
+    | TIMESERIES
+    | fqIdentifier
+    | ERROR
+    | listType
+    | mapType
+    ;
+
+listType
+    : LIST OF L_PAREN type R_PAREN
+    ;
+
+mapType
+    : MAP OF L_PAREN keyType COMMA type R_PAREN
+    ;
+
+keyType
+    : INT
+    | BOOL
+    | STRING
+    | TIME
+    | DATE
     ;
 
 //=============================================================================
@@ -146,7 +164,11 @@ statement
 //=============================================================================
 
 varDeclaration
-    : fqIdentifier ( COMMA fqIdentifier)* EQUAL expression ( COMMA expression)*
+    : accessedIdentifier ( COMMA accessedIdentifier)* EQUAL expression ( COMMA expression)*
+    ;
+
+accessedIdentifier
+    : fqIdentifier accessorExpression?
     ;
 
 //=============================================================================
@@ -191,11 +213,11 @@ expression
     ;
 
 identifierExpression
-    : fqIdentifier ( inBarExpression | paramsExpression )?
+    : fqIdentifier ( accessorExpression | paramsExpression )?
     ;
 
-inBarExpression
-    : IN_BAR expression
+accessorExpression
+    : L_BRACKET expression R_BRACKET
     ;
 
 paramsExpression
@@ -241,7 +263,7 @@ errorValue
     : ERROR L_PAREN STRING_VALUE R_PAREN;
 
 listValue
-    : LIST OF L_PAREN type R_PAREN initialListValues?
+    : listType initialListValues?
     ;
 
 initialListValues
@@ -249,7 +271,7 @@ initialListValues
     ;
 
 mapValue
-    : MAP OF L_PAREN keyType COMMA type R_PAREN initialMapValues?
+    : mapType initialMapValues?
     ;
 
 initialMapValues
@@ -262,7 +284,6 @@ keyValueCouple
 
 keyValue
     : INT_VALUE
-    | boolValue
     | STRING_VALUE
     | timeValue
     | dateValue

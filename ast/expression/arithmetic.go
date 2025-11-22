@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 package expression
 
+import "github.com/tradalia/sick-engine/datatype"
+
 //=============================================================================
 //===
 //=== Mult
@@ -43,7 +45,7 @@ func (e *MultExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *MultExpression) Type() *Type {
+func (e *MultExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -75,7 +77,7 @@ func (e *DivExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *DivExpression) Type() *Type {
+func (e *DivExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -107,7 +109,7 @@ func (e *AddExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *AddExpression) Type() *Type {
+func (e *AddExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -139,7 +141,7 @@ func (e *SubExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *SubExpression) Type() *Type {
+func (e *SubExpression) Type() datatype.Type {
 	return nil
 }
 

@@ -24,7 +24,11 @@ THE SOFTWARE.
 
 package expression
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/tradalia/sick-engine/datatype"
+)
 
 //=============================================================================
 //===
@@ -63,7 +67,7 @@ func (e *AndExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *AndExpression) Type() *Type {
+func (e *AndExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -104,7 +108,7 @@ func (e *OrExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *OrExpression) Type() *Type {
+func (e *OrExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -134,12 +138,12 @@ func (e *NotExpression) Eval() (*ValueSet,error) {
 		return nil,err
 	}
 
-	return NewValueSet(NewValue(BoolType, !res)),nil
+	return NewValueSet(NewBoolValue(!res)),nil
 }
 
 //=============================================================================
 
-func (e *NotExpression) Type() *Type {
+func (e *NotExpression) Type() datatype.Type {
 	return e.expression.Type()
 }
 
@@ -166,8 +170,8 @@ func (e *TrueExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *TrueExpression) Type() *Type {
-	return BoolType
+func (e *TrueExpression) Type() datatype.Type {
+	return datatype.NewBoolType()
 }
 
 //=============================================================================
@@ -193,8 +197,8 @@ func (e *FalseExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *FalseExpression) Type() *Type {
-	return BoolType
+func (e *FalseExpression) Type() datatype.Type {
+	return datatype.NewBoolType()
 }
 
 //=============================================================================
@@ -214,7 +218,7 @@ func evalAsBool(e Expression) (bool,error) {
 	}
 
 	value := vs.values[0]
-	if value.Type != BoolType {
+	if value.Type() != datatype.NewBoolType() {
 		return false,fmt.Errorf("expected a boolean value. Found %d", value.Data)
 	}
 
@@ -222,7 +226,7 @@ func evalAsBool(e Expression) (bool,error) {
 		return false,nil
 	}
 
-	return value.Data.(bool),nil
+	return value.Data().(bool),nil
 }
 
 //=============================================================================

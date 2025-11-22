@@ -1,6 +1,6 @@
 //=============================================================================
 /*
-Copyright © 2024 Andrea Carboni andrea.carboni71@gmail.com
+Copyright © 2025 Andrea Carboni andrea.carboni71@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,118 +24,35 @@ THE SOFTWARE.
 
 package datatype
 
-import (
-	"errors"
-	"fmt"
-	"strconv"
-	"strings"
-)
-
+//=============================================================================
+//===
+//=== Time
+//===
 //=============================================================================
 
-type Time struct {
-	Hour int `json:"hour"`
-	Min  int `json:"min"`
+type TimeType struct {
 }
 
 //=============================================================================
 
-func NewTime(hour int, min int) *Time {
-	return &Time{
-		Hour: hour,
-		Min : min,
-	}
+var timeType = &TimeType{}
+
+//=============================================================================
+
+func NewTimeType() *TimeType {
+	return timeType
 }
 
 //=============================================================================
 
-func NewTimeFromString(time string) (*Time, error) {
-	index := strings.Index(time, ":")
-	if index <1 || index>2 || len(time)<4 || len(time)>5 {
-		return nil, errors.New("bad time format")
-	}
-
-	hour,err1 := strconv.Atoi(time[0:index])
-	mins,err2 := strconv.Atoi(time[index:])
-
-	if err1 != nil {
-		return nil, errors.New("time hour is not an integer")
-	}
-
-	if err2 != nil {
-		return nil, errors.New("time minute is not an integer")
-	}
-
-	if hour<0 || hour>23 || mins<0 || mins>59 {
-		return nil, errors.New("bad hour/minute value")
-	}
-
-	return &Time{
-		Hour: hour,
-		Min : mins,
-	}, nil
+func (TimeType) Id() int8 {
+	return idTime
 }
 
 //=============================================================================
 
-func (t *Time) Add(hour,mins int) *Time {
-	h := t.Hour + hour
-	m := t.Min  + mins
-
-	if m >= 60 {
-		m -= 60
-		h++
-	}
-
-	if h >= 24 {
-		h -= 24
-	}
-
-	return &Time{
-		Hour: h,
-		Min : m,
-	}
-}
-
-//=============================================================================
-
-func (t *Time) Sub(hour,mins int) *Time {
-	h := t.Hour - hour
-	m := t.Min  - mins
-
-	if m < 0 {
-		m += 60
-		h--
-	}
-
-	if h < 0 {
-		h += 24
-	}
-
-	return &Time{
-		Hour: h,
-		Min : m,
-	}
-}
-
-//=============================================================================
-
-func (t *Time) IsValid() bool {
-	if t.Hour < 0 || t.Hour > 23 {
-		return false
-	}
-
-	if t.Min < 0 || t.Min > 59 {
-		return false
-	}
-
-	return true
-}
-
-//=============================================================================
-
-func (t *Time) String() string {
-	return fmt.Sprintf("%2d:%2d", t.Hour, t.Min)
+func (TimeType) String() string {
+	return "time"
 }
 
 //=============================================================================

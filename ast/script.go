@@ -24,7 +24,10 @@ THE SOFTWARE.
 
 package ast
 
-import "github.com/tradalia/sick-engine/ast/expression"
+import (
+	"github.com/tradalia/sick-engine/ast/expression"
+	"github.com/tradalia/sick-engine/datatype"
+)
 
 //=============================================================================
 
@@ -32,41 +35,87 @@ type Script struct {
 	Filename    string
 	PackageName string
 	Constants   []*Constant
+	Variables   []*Variable
 	Functions   []*Function
-	Enums       []*Enum
-	Classes     []*Class
+	Enums       []*datatype.EnumType
+	Classes     []*datatype.ClassType
+
+	identifiers map[string]bool
 }
 
 //=============================================================================
 
 func NewScript(filename string) *Script {
 	return &Script{
-		Filename: filename,
+		Filename   : filename,
+		identifiers: make(map[string]bool),
 	}
 }
 
 //=============================================================================
 
-func (s *Script) AddConstant(c *Constant) {
+func (s *Script) AddConstant(c *Constant) bool {
+	if s.testAndSet(c.Name) {
+		return false
+	}
+
 	s.Constants = append(s.Constants, c)
+	return true
 }
 
 //=============================================================================
 
-func (s *Script) AddFunction(f *Function) {
+func (s *Script) AddVariable(v *Variable) bool {
+	if s.testAndSet(v.Name) {
+		return false
+	}
+
+	s.Variables = append(s.Variables, v)
+	return true
+}
+
+//=============================================================================
+
+func (s *Script) AddFunction(f *Function) bool {
+	if s.testAndSet(f.name) {
+		return false
+	}
+
 	s.Functions = append(s.Functions, f)
+	return true
 }
 
 //=============================================================================
 
-func (s *Script) AddEnum(e *Enum) {
+func (s *Script) AddEnum(e *datatype.EnumType) bool {
+	if s.testAndSet(e.Name()) {
+		return false
+	}
+
 	s.Enums = append(s.Enums, e)
+	return true
 }
 
 //=============================================================================
 
-func (s *Script) AddClass(c *Class) {
+func (s *Script) AddClass(c *datatype.ClassType) bool {
+	if s.testAndSet(c.Name()) {
+		return false
+	}
+
 	s.Classes = append(s.Classes, c)
+	return true
+}
+
+//=============================================================================
+
+func (s *Script) testAndSet(name string) bool {
+	if _, ok := s.identifiers[name]; ok {
+		return true
+	}
+
+	s.identifiers[name] = true
+	return false
 }
 
 //=============================================================================
@@ -84,6 +133,26 @@ type Constant struct {
 
 func NewConstant(name string, e expression.Expression) *Constant {
 	return &Constant{
+		Name : name,
+		Value: e,
+	}
+}
+
+//=============================================================================
+//===
+//=== Variable
+//===
+//=============================================================================
+
+type Variable struct {
+	Name  string
+	Value expression.Expression
+}
+
+//=============================================================================
+
+func NewVariable(name string, e expression.Expression) *Variable {
+	return &Variable{
 		Name : name,
 		Value: e,
 	}

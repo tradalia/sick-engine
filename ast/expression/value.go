@@ -24,114 +24,20 @@ THE SOFTWARE.
 
 package expression
 
-import (
-	"fmt"
-
-	"github.com/tradalia/sick-engine/datatype"
-)
+import "github.com/tradalia/sick-engine/datatype"
 
 //=============================================================================
 //===
-//=== Constants
+//=== Value interface
 //===
 //=============================================================================
 
-var TrueValue  = NewValue( BoolType, true )
-var FalseValue = NewValue( BoolType, false)
+type Value interface {
+	Data() any
+	Type() datatype.Type
 
-var TrueValueSet  = NewValueSet(TrueValue)
-var FalseValueSet = NewValueSet(FalseValue)
-
-//=============================================================================
-
-func NewIntValue   (i int           ) *Value { return NewValue(IntType,    i) }
-func NewRealValue  (r float64       ) *Value { return NewValue(RealType,   r) }
-func NewBoolValue  (b bool          ) *Value { return NewValue(BoolType,   b) }
-func NewStringValue(s string        ) *Value { return NewValue(StringType, s) }
-func NewTimeValue  (t *datatype.Time) *Value { return NewValue(TimeType,   t) }
-func NewDateValue  (d *datatype.Date) *Value { return NewValue(DateType,   d) }
-
-//=============================================================================
-//===
-//=== ValueSet
-//===
-//=============================================================================
-
-type ValueSet struct {
-	values []*Value
-}
-
-//=============================================================================
-
-func NewValueSet(v *Value) *ValueSet {
-	vs := &ValueSet{}
-	vs.AddValue(v)
-	return vs
-}
-
-//=============================================================================
-
-func (vs *ValueSet) AddValue(value *Value) {
-	vs.values = append(vs.values, value)
-}
-
-//=============================================================================
-
-func (vs *ValueSet) Size() int {
-	return len(vs.values)
-}
-
-//=============================================================================
-//===
-//=== Value
-//===
-//=============================================================================
-
-type Value struct {
-	Type  *Type
-	Data  any
-}
-
-//=============================================================================
-
-func NewValue(typ *Type, value any) *Value {
-	return &Value{
-		Type: typ,
-		Data: value,
-	}
-}
-
-//=============================================================================
-
-func (v *Value) Equals(vv *Value) (bool,error) {
-	if v.Type != vv.Type {
-		return false, fmt.Errorf("expected type %v but got %v", v.Type, vv.Type)
-	}
-
-	if v.Data == nil && vv.Data == nil {
-		return true, nil
-	}
-
-	if v.Data == nil || vv.Data == nil {
-		return false, nil
-	}
-
-	return v.Data == vv.Data, nil
-}
-
-//=============================================================================
-
-func (v *Value) LessThan(vv *Value) (bool,error) {
-	if v.Type != vv.Type {
-		return false, fmt.Errorf("expected type %v but got %v", v.Type, vv.Type)
-	}
-
-	if v.Data == nil || vv.Data == nil {
-		return false, nil
-	}
-
-	//TODO
-	return false, nil
+	Equals  (other Value) bool
+	LessThan(other Value) bool
 }
 
 //=============================================================================

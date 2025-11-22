@@ -24,44 +24,43 @@ THE SOFTWARE.
 
 package expression
 
-import "github.com/tradalia/sick-engine/datatype"
-
 //=============================================================================
 //===
-//=== Function call
+//=== Constants
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+var TrueValueSet  = NewValueSet(NewBoolValue(true))
+var FalseValueSet = NewValueSet(NewBoolValue(false))
+
+//=============================================================================
+//===
+//=== ValueSet
+//===
+//=============================================================================
+
+type ValueSet struct {
+	values []Value
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
-	}
+func NewValueSet(v Value) *ValueSet {
+	vs := &ValueSet{}
+	vs.AddValue(v)
+	return vs
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (vs *ValueSet) AddValue(value Value) {
+	vs.values = append(vs.values, value)
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (vs *ValueSet) Size() int {
+	return len(vs.values)
 }
 
 //=============================================================================

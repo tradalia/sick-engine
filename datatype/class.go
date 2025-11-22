@@ -22,46 +22,75 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package datatype
 
 //=============================================================================
 //===
-//=== Function call
+//=== Class
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type ClassType struct {
+	name       string
+	properties map[string]*Property
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewClassType(name string) *ClassType {
+	return &ClassType{
+		name      : name,
+		properties: map[string]*Property{},
 	}
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (t *ClassType) Name() string {
+	return t.name
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
+func (t *ClassType) AddProperty(p *Property) bool {
+	if _,ok := t.properties[p.Name]; ok {
+		return false
+	}
+
+	t.properties[p.Name] = p
+	return true
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (t *ClassType) Id() int8 {
+	return idClass
+}
+
+//=============================================================================
+
+func (t *ClassType) String() string {
+	return "class="+ t.name
+}
+
+//=============================================================================
+//===
+//=== Property
+//===
+//=============================================================================
+
+type Property struct {
+	Name string
+	Type Type
+}
+
+//=============================================================================
+
+func NewProperty(name string, type_ Type) *Property {
+	return &Property{
+		Name:  name,
+		Type:  type_,
+	}
 }
 
 //=============================================================================

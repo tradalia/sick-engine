@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 package expression
 
+import "github.com/tradalia/sick-engine/datatype"
+
 //=============================================================================
 //===
 //=== Equal
@@ -64,7 +66,7 @@ func (e *EqualExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *EqualExpression) Type() *Type {
+func (e *EqualExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -96,7 +98,7 @@ func (e *NotEqualExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *NotEqualExpression) Type() *Type {
+func (e *NotEqualExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -119,7 +121,7 @@ func (e *LessOrEqualExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *LessOrEqualExpression) Type() *Type {
+func (e *LessOrEqualExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -151,7 +153,7 @@ func (e *GreaterOrEqualExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *GreaterOrEqualExpression) Type() *Type {
+func (e *GreaterOrEqualExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -183,7 +185,7 @@ func (e *LessThanExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *LessThanExpression) Type() *Type {
+func (e *LessThanExpression) Type() datatype.Type {
 	return nil
 }
 
@@ -215,7 +217,7 @@ func (e *GreaterThanExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *GreaterThanExpression) Type() *Type {
+func (e *GreaterThanExpression) Type() datatype.Type {
 	return nil
 }
 

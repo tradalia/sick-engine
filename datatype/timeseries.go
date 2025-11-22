@@ -22,46 +22,37 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package datatype
 
 //=============================================================================
 //===
-//=== Function call
+//=== Timeseries
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type TimeseriesType struct {
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
-	}
+var timeseriesType = &TimeseriesType{}
+
+//=============================================================================
+
+func NewTimeseriesType() *TimeseriesType {
+	return timeseriesType
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (TimeseriesType) Id() int8 {
+	return idTimeseries
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (TimeseriesType) String() string {
+	return "timeseries"
 }
 
 //=============================================================================

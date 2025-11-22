@@ -44,6 +44,18 @@ func (s *BaseTslParserListener) EnterConstantDef(ctx *ConstantDefContext) {}
 // ExitConstantDef is called when production constantDef is exited.
 func (s *BaseTslParserListener) ExitConstantDef(ctx *ConstantDefContext) {}
 
+// EnterVariablesDef is called when production variablesDef is entered.
+func (s *BaseTslParserListener) EnterVariablesDef(ctx *VariablesDefContext) {}
+
+// ExitVariablesDef is called when production variablesDef is exited.
+func (s *BaseTslParserListener) ExitVariablesDef(ctx *VariablesDefContext) {}
+
+// EnterVariableDef is called when production variableDef is entered.
+func (s *BaseTslParserListener) EnterVariableDef(ctx *VariableDefContext) {}
+
+// ExitVariableDef is called when production variableDef is exited.
+func (s *BaseTslParserListener) ExitVariableDef(ctx *VariableDefContext) {}
+
 // EnterFunctionDef is called when production functionDef is entered.
 func (s *BaseTslParserListener) EnterFunctionDef(ctx *FunctionDefContext) {}
 
@@ -73,18 +85,6 @@ func (s *BaseTslParserListener) EnterResults(ctx *ResultsContext) {}
 
 // ExitResults is called when production results is exited.
 func (s *BaseTslParserListener) ExitResults(ctx *ResultsContext) {}
-
-// EnterType is called when production type is entered.
-func (s *BaseTslParserListener) EnterType(ctx *TypeContext) {}
-
-// ExitType is called when production type is exited.
-func (s *BaseTslParserListener) ExitType(ctx *TypeContext) {}
-
-// EnterKeyType is called when production keyType is entered.
-func (s *BaseTslParserListener) EnterKeyType(ctx *KeyTypeContext) {}
-
-// ExitKeyType is called when production keyType is exited.
-func (s *BaseTslParserListener) ExitKeyType(ctx *KeyTypeContext) {}
 
 // EnterEnumDef is called when production enumDef is entered.
 func (s *BaseTslParserListener) EnterEnumDef(ctx *EnumDefContext) {}
@@ -116,6 +116,30 @@ func (s *BaseTslParserListener) EnterProperty(ctx *PropertyContext) {}
 // ExitProperty is called when production property is exited.
 func (s *BaseTslParserListener) ExitProperty(ctx *PropertyContext) {}
 
+// EnterType is called when production type is entered.
+func (s *BaseTslParserListener) EnterType(ctx *TypeContext) {}
+
+// ExitType is called when production type is exited.
+func (s *BaseTslParserListener) ExitType(ctx *TypeContext) {}
+
+// EnterListType is called when production listType is entered.
+func (s *BaseTslParserListener) EnterListType(ctx *ListTypeContext) {}
+
+// ExitListType is called when production listType is exited.
+func (s *BaseTslParserListener) ExitListType(ctx *ListTypeContext) {}
+
+// EnterMapType is called when production mapType is entered.
+func (s *BaseTslParserListener) EnterMapType(ctx *MapTypeContext) {}
+
+// ExitMapType is called when production mapType is exited.
+func (s *BaseTslParserListener) ExitMapType(ctx *MapTypeContext) {}
+
+// EnterKeyType is called when production keyType is entered.
+func (s *BaseTslParserListener) EnterKeyType(ctx *KeyTypeContext) {}
+
+// ExitKeyType is called when production keyType is exited.
+func (s *BaseTslParserListener) ExitKeyType(ctx *KeyTypeContext) {}
+
 // EnterBlock is called when production block is entered.
 func (s *BaseTslParserListener) EnterBlock(ctx *BlockContext) {}
 
@@ -133,6 +157,12 @@ func (s *BaseTslParserListener) EnterVarDeclaration(ctx *VarDeclarationContext) 
 
 // ExitVarDeclaration is called when production varDeclaration is exited.
 func (s *BaseTslParserListener) ExitVarDeclaration(ctx *VarDeclarationContext) {}
+
+// EnterAccessedIdentifier is called when production accessedIdentifier is entered.
+func (s *BaseTslParserListener) EnterAccessedIdentifier(ctx *AccessedIdentifierContext) {}
+
+// ExitAccessedIdentifier is called when production accessedIdentifier is exited.
+func (s *BaseTslParserListener) ExitAccessedIdentifier(ctx *AccessedIdentifierContext) {}
 
 // EnterIfStatement is called when production ifStatement is entered.
 func (s *BaseTslParserListener) EnterIfStatement(ctx *IfStatementContext) {}
@@ -176,11 +206,11 @@ func (s *BaseTslParserListener) EnterIdentifierExpression(ctx *IdentifierExpress
 // ExitIdentifierExpression is called when production identifierExpression is exited.
 func (s *BaseTslParserListener) ExitIdentifierExpression(ctx *IdentifierExpressionContext) {}
 
-// EnterInBarExpression is called when production inBarExpression is entered.
-func (s *BaseTslParserListener) EnterInBarExpression(ctx *InBarExpressionContext) {}
+// EnterAccessorExpression is called when production accessorExpression is entered.
+func (s *BaseTslParserListener) EnterAccessorExpression(ctx *AccessorExpressionContext) {}
 
-// ExitInBarExpression is called when production inBarExpression is exited.
-func (s *BaseTslParserListener) ExitInBarExpression(ctx *InBarExpressionContext) {}
+// ExitAccessorExpression is called when production accessorExpression is exited.
+func (s *BaseTslParserListener) ExitAccessorExpression(ctx *AccessorExpressionContext) {}
 
 // EnterParamsExpression is called when production paramsExpression is entered.
 func (s *BaseTslParserListener) EnterParamsExpression(ctx *ParamsExpressionContext) {}

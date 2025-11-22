@@ -1,6 +1,6 @@
 //=============================================================================
 /*
-Copyright © 2025 Andrea Carboni andrea.carboni71@gmail.com
+Copyright © 2024 Andrea Carboni andrea.carboni71@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,41 +22,53 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package ast
+package expression
+
+import (
+	"github.com/tradalia/sick-engine/data"
+	"github.com/tradalia/sick-engine/datatype"
+)
 
 //=============================================================================
+//===
+//=== Date value
+//===
+//=============================================================================
 
-type Enum struct {
-	Name  string
-	Items []*EnumItem
+type DateValue struct {
+	value *data.Date
 }
 
 //=============================================================================
 
-func NewEnum(name string) *Enum {
-	return &Enum{
-		Name: name,
+func NewDateValue(value *data.Date) *DateValue {
+	return &DateValue{
+		value: value,
 	}
 }
 
 //=============================================================================
 
-func (e *Enum) AddItem(i *EnumItem) {
-	e.Items = append(e.Items, i)
+func (v *DateValue) Data() any {
+	return v.value
 }
 
 //=============================================================================
 
-type EnumItem struct {
-	Name  string
-	Code  int
-	Value string
+func (v *DateValue) Type() datatype.Type {
+	return datatype.NewDateType()
 }
 
 //=============================================================================
 
-func NewEnumItem(name string, code int, value string) *EnumItem {
-	return &EnumItem{name, code, value}
+func (v *DateValue) Equals(other Value) bool {
+	return false
+}
+
+//=============================================================================
+
+func (v *DateValue) LessThan(other Value) bool {
+	return false
 }
 
 //=============================================================================

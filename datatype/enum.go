@@ -22,46 +22,95 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package datatype
 
 //=============================================================================
 //===
-//=== Function call
+//=== Enum
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type EnumType struct {
+	name    string
+	items   []*EnumItem
+	itemMap map[string]*EnumItem
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewEnumType(name string) *EnumType {
+	return &EnumType{
+		name   : name,
+		itemMap: make(map[string]*EnumItem),
 	}
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (e *EnumType) Name() string {
+	return e.name
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
+func (e *EnumType) AddItem(i *EnumItem) bool {
+	if _,ok := e.itemMap[i.Name]; ok {
+		return false
+	}
+
+	e.items = append(e.items, i)
+	e.itemMap[i.Name] = i
+	return true
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (e *EnumType) Items() []*EnumItem {
+	return e.items
+}
+
+//=============================================================================
+
+func (e *EnumType) Size() int {
+	return len(e.items)
+}
+
+//=============================================================================
+
+func (e *EnumType) AssignCodes() {
+	for i, item := range e.items {
+		item.Code = i+1
+	}
+}
+
+//=============================================================================
+
+func (e *EnumType) Id() int8 {
+	return idEnum
+}
+
+//=============================================================================
+
+func (e *EnumType) String() string {
+	return e.name
+}
+
+//=============================================================================
+//===
+//=== EnumItem
+//===
+//=============================================================================
+
+type EnumItem struct {
+	Name  string
+	Code  int
+	Value string
+}
+
+//=============================================================================
+
+func NewEnumItem(name string, code int, value string) *EnumItem {
+	return &EnumItem{name, code, value}
 }
 
 //=============================================================================

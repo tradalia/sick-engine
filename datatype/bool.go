@@ -22,46 +22,37 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package datatype
 
 //=============================================================================
 //===
-//=== Function call
+//=== Bool
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type BoolType struct {
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
-	}
+var boolType = &BoolType{}
+
+//=============================================================================
+
+func NewBoolType() *BoolType {
+	return boolType
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (BoolType) Id() int8 {
+	return idBool
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (BoolType) String() string {
+	return "bool"
 }
 
 //=============================================================================

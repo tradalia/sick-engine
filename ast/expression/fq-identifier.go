@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 package expression
 
+import "github.com/tradalia/sick-engine/datatype"
+
 //=============================================================================
 //===
 //=== Identifier
@@ -31,8 +33,8 @@ package expression
 //=============================================================================
 
 type IdentifierExpression struct {
-	name *FQIdentifier
-	bar   Expression
+	name     *FQIdentifier
+	accessor Expression
 }
 
 //=============================================================================
@@ -43,16 +45,16 @@ func (e *IdentifierExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *IdentifierExpression) Type() *Type {
+func (e *IdentifierExpression) Type() datatype.Type {
 	return nil
 }
 
 //=============================================================================
 
-func NewIdentifierExpression(name *FQIdentifier, bar Expression) *IdentifierExpression {
+func NewIdentifierExpression(name *FQIdentifier, accessor Expression) *IdentifierExpression {
 	return &IdentifierExpression{
-		name: name,
-		bar:  bar,
+		name    : name,
+		accessor: accessor,
 	}
 }
 

@@ -24,6 +24,8 @@ THE SOFTWARE.
 
 package expression
 
+import "github.com/tradalia/sick-engine/datatype"
+
 //=============================================================================
 //===
 //=== Expression
@@ -32,7 +34,7 @@ package expression
 
 type Expression interface {
 	Eval() (*ValueSet,error)
-	Type() *Type
+	Type() datatype.Type
 //	Text() string
 }
 
@@ -48,7 +50,7 @@ type ConstantValueExpression struct {
 
 //=============================================================================
 
-func NewConstantValueExpression(v *Value) *ConstantValueExpression {
+func NewConstantValueExpression(v Value) *ConstantValueExpression {
 	vs := NewValueSet(v)
 	return &ConstantValueExpression{
 		ValueSet: vs,
@@ -63,8 +65,8 @@ func (e *ConstantValueExpression) Eval() (*ValueSet,error) {
 
 //=============================================================================
 
-func (e *ConstantValueExpression) Type() *Type {
-	return e.ValueSet.values[0].Type
+func (e *ConstantValueExpression) Type() datatype.Type {
+	return e.ValueSet.values[0].Type()
 }
 
 //=============================================================================

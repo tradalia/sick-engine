@@ -28,40 +28,44 @@ import "github.com/tradalia/sick-engine/datatype"
 
 //=============================================================================
 //===
-//=== Function call
+//=== Real value
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type RealValue struct {
+	value float64
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewRealValue(value float64) *RealValue {
+	return &RealValue{
+		value: value,
 	}
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (v *RealValue) Data() any {
+	return v.value
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
+func (v *RealValue) Type() datatype.Type {
+	return datatype.NewRealType()
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (v *RealValue) Equals(other Value) bool {
+	return false
+}
+
+//=============================================================================
+
+func (v *RealValue) LessThan(other Value) bool {
+	return false
 }
 
 //=============================================================================

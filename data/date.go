@@ -1,6 +1,6 @@
 //=============================================================================
 /*
-Copyright © 2025 Andrea Carboni andrea.carboni71@gmail.com
+Copyright © 2024 Andrea Carboni andrea.carboni71@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,46 +22,50 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
+package data
 
-import "github.com/tradalia/sick-engine/datatype"
+import "fmt"
 
 //=============================================================================
-//===
-//=== Function call
-//===
-//=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type Date struct {
+	Year  int `json:"year"`
+	Month int `json:"month"`
+	Day   int `json:"day"`
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewDate(year int, month int, day int) *Date {
+	return &Date{
+		Year : year,
+		Month: month,
+		Day  : day,
 	}
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (d *Date) IsValid() bool {
+	if d.Year < 0 {
+		return false
+	}
+
+	if d.Month < 1 || d.Month > 12 {
+		return false
+	}
+
+	if d.Day < 1 || d.Day > 31 {
+		return false
+	}
+
+	return true
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (d *Date) String() string {
+	return fmt.Sprintf("%4d-%2d-%2d", d.Year, d.Month, d.Day)
 }
 
 //=============================================================================

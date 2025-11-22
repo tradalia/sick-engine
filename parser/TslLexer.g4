@@ -33,6 +33,7 @@ IF       : 'if';
 ELSE     : 'else';
 FOR      : 'for';
 CONST    : 'const';
+VAR      : 'var';
 TRUE     : 'true';
 FALSE    : 'false';
 RETURN   : 'return';
@@ -113,10 +114,6 @@ LESS_THAN        : '<';
 LESS_OR_EQUAL    : '<=';
 GREATER_THAN     : '>';
 GREATER_OR_EQUAL : '>=';
-
-//=== Time serie operators
-
-IN_BAR            : '::';
 
 //=== Comments and white spaces ===============================================
 

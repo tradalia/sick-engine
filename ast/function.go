@@ -27,8 +27,8 @@ package ast
 import (
 	"strings"
 
-	"github.com/tradalia/sick-engine/ast/expression"
 	"github.com/tradalia/sick-engine/ast/statement"
+	"github.com/tradalia/sick-engine/datatype"
 )
 
 //=============================================================================
@@ -41,7 +41,7 @@ type Function struct {
 	name     string
 	class    string
 	params   []*Param
-	returns  []*expression.Type
+	returns  []datatype.Type
 	block    *statement.Block
 }
 
@@ -61,7 +61,7 @@ func (f *Function) Id() string {
 
 	for _,p := range f.params {
 		sb.WriteString("|")
-		sb.WriteString(p.Type.Name)
+		sb.WriteString(p.Type.String())
 	}
 
 	return sb.String()
@@ -75,7 +75,7 @@ func (f *Function) AddParam(p *Param) {
 
 //=============================================================================
 
-func (f *Function) AddReturnType(t *expression.Type) {
+func (f *Function) AddReturnType(t datatype.Type) {
 	f.returns = append(f.returns, t)
 }
 
@@ -87,12 +87,12 @@ func (f *Function) AddReturnType(t *expression.Type) {
 
 type Param struct {
 	Name  string
-	Type  *expression.Type
+	Type  datatype.Type
 }
 
 //=============================================================================
 
-func NewParam(name string, t *expression.Type) *Param {
+func NewParam(name string, t datatype.Type) *Param {
 	return &Param{
 		Name: name,
 		Type: t,

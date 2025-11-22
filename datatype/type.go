@@ -22,46 +22,39 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package datatype
 
 //=============================================================================
 //===
-//=== Function call
+//=== Type IDs
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
-}
+const (
+	idInt        =  0
+	idReal       =  1
+	idBool       =  2
+	idString     =  3
+	idTime       =  4
+	idDate       =  5
+	idTimeseries =  6
+	idEnum       =  7
+	idClass      =  8
+	idList       =  9
+	idMap        = 10
+	idError      = 11
+	idToFindOut  = -1
+)
 
 //=============================================================================
-
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
-	}
-}
-
+//===
+//=== Type interface
+//===
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+type Type interface {
+	Id()     int8
+	String() string
 }
 
 //=============================================================================

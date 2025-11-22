@@ -22,46 +22,34 @@ THE SOFTWARE.
 */
 //=============================================================================
 
-package expression
-
-import "github.com/tradalia/sick-engine/datatype"
+package core
 
 //=============================================================================
 //===
-//=== Function call
+//=== CallStack
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type CallStack struct {
+	records []*CallRecord
+	pointer int
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewCallStack() *CallStack {
+	cs := &CallStack{
+		records: make([]*CallRecord, 1024),
 	}
+
+	cs.records = append(cs.records, NewCallRecord())
+	return cs
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
-}
-
-//=============================================================================
-
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (cs *CallStack) ExistVariable(name string) bool {
+	return cs.records[cs.pointer] != nil
 }
 
 //=============================================================================

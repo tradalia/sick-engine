@@ -96,6 +96,27 @@ func TestEnumItemNameInUppercase(t *testing.T) {
 }
 
 //=============================================================================
+
+func TestEnumWithMicexItems(t *testing.T) {
+	_, pes := ParseString("enum A { B(1) C(\"x\") }")
+	assertError(t, pes, "mixing")
+}
+
+//=============================================================================
+
+func TestEnumWithAutoCodeAssignment(t *testing.T) {
+	s, pes := ParseString("enum A { B C }")
+	if !pes.IsEmpty() {
+		t.Errorf("Errors returned")
+	}
+
+	e := s.Enums[0]
+	if e.Items()[0].Code != 1 && e.Items()[1].Code != 2 {
+		t.Errorf("Bad auto assignment")
+	}
+}
+
+//=============================================================================
 //=== Classes
 //=============================================================================
 
@@ -112,7 +133,7 @@ func TestPropertyNameInLowercase(t *testing.T) {
 }
 
 //=============================================================================
-//=== Classes
+//=== Identifiers
 //=============================================================================
 
 func TestIdentifierNameInLowercase(t *testing.T) {

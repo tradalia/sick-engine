@@ -19,6 +19,12 @@ type TslParserListener interface {
 	// EnterConstantDef is called when entering the constantDef production.
 	EnterConstantDef(c *ConstantDefContext)
 
+	// EnterVariablesDef is called when entering the variablesDef production.
+	EnterVariablesDef(c *VariablesDefContext)
+
+	// EnterVariableDef is called when entering the variableDef production.
+	EnterVariableDef(c *VariableDefContext)
+
 	// EnterFunctionDef is called when entering the functionDef production.
 	EnterFunctionDef(c *FunctionDefContext)
 
@@ -33,12 +39,6 @@ type TslParserListener interface {
 
 	// EnterResults is called when entering the results production.
 	EnterResults(c *ResultsContext)
-
-	// EnterType is called when entering the type production.
-	EnterType(c *TypeContext)
-
-	// EnterKeyType is called when entering the keyType production.
-	EnterKeyType(c *KeyTypeContext)
 
 	// EnterEnumDef is called when entering the enumDef production.
 	EnterEnumDef(c *EnumDefContext)
@@ -55,6 +55,18 @@ type TslParserListener interface {
 	// EnterProperty is called when entering the property production.
 	EnterProperty(c *PropertyContext)
 
+	// EnterType is called when entering the type production.
+	EnterType(c *TypeContext)
+
+	// EnterListType is called when entering the listType production.
+	EnterListType(c *ListTypeContext)
+
+	// EnterMapType is called when entering the mapType production.
+	EnterMapType(c *MapTypeContext)
+
+	// EnterKeyType is called when entering the keyType production.
+	EnterKeyType(c *KeyTypeContext)
+
 	// EnterBlock is called when entering the block production.
 	EnterBlock(c *BlockContext)
 
@@ -63,6 +75,9 @@ type TslParserListener interface {
 
 	// EnterVarDeclaration is called when entering the varDeclaration production.
 	EnterVarDeclaration(c *VarDeclarationContext)
+
+	// EnterAccessedIdentifier is called when entering the accessedIdentifier production.
+	EnterAccessedIdentifier(c *AccessedIdentifierContext)
 
 	// EnterIfStatement is called when entering the ifStatement production.
 	EnterIfStatement(c *IfStatementContext)
@@ -85,8 +100,8 @@ type TslParserListener interface {
 	// EnterIdentifierExpression is called when entering the identifierExpression production.
 	EnterIdentifierExpression(c *IdentifierExpressionContext)
 
-	// EnterInBarExpression is called when entering the inBarExpression production.
-	EnterInBarExpression(c *InBarExpressionContext)
+	// EnterAccessorExpression is called when entering the accessorExpression production.
+	EnterAccessorExpression(c *AccessorExpressionContext)
 
 	// EnterParamsExpression is called when entering the paramsExpression production.
 	EnterParamsExpression(c *ParamsExpressionContext)
@@ -145,6 +160,12 @@ type TslParserListener interface {
 	// ExitConstantDef is called when exiting the constantDef production.
 	ExitConstantDef(c *ConstantDefContext)
 
+	// ExitVariablesDef is called when exiting the variablesDef production.
+	ExitVariablesDef(c *VariablesDefContext)
+
+	// ExitVariableDef is called when exiting the variableDef production.
+	ExitVariableDef(c *VariableDefContext)
+
 	// ExitFunctionDef is called when exiting the functionDef production.
 	ExitFunctionDef(c *FunctionDefContext)
 
@@ -159,12 +180,6 @@ type TslParserListener interface {
 
 	// ExitResults is called when exiting the results production.
 	ExitResults(c *ResultsContext)
-
-	// ExitType is called when exiting the type production.
-	ExitType(c *TypeContext)
-
-	// ExitKeyType is called when exiting the keyType production.
-	ExitKeyType(c *KeyTypeContext)
 
 	// ExitEnumDef is called when exiting the enumDef production.
 	ExitEnumDef(c *EnumDefContext)
@@ -181,6 +196,18 @@ type TslParserListener interface {
 	// ExitProperty is called when exiting the property production.
 	ExitProperty(c *PropertyContext)
 
+	// ExitType is called when exiting the type production.
+	ExitType(c *TypeContext)
+
+	// ExitListType is called when exiting the listType production.
+	ExitListType(c *ListTypeContext)
+
+	// ExitMapType is called when exiting the mapType production.
+	ExitMapType(c *MapTypeContext)
+
+	// ExitKeyType is called when exiting the keyType production.
+	ExitKeyType(c *KeyTypeContext)
+
 	// ExitBlock is called when exiting the block production.
 	ExitBlock(c *BlockContext)
 
@@ -189,6 +216,9 @@ type TslParserListener interface {
 
 	// ExitVarDeclaration is called when exiting the varDeclaration production.
 	ExitVarDeclaration(c *VarDeclarationContext)
+
+	// ExitAccessedIdentifier is called when exiting the accessedIdentifier production.
+	ExitAccessedIdentifier(c *AccessedIdentifierContext)
 
 	// ExitIfStatement is called when exiting the ifStatement production.
 	ExitIfStatement(c *IfStatementContext)
@@ -211,8 +241,8 @@ type TslParserListener interface {
 	// ExitIdentifierExpression is called when exiting the identifierExpression production.
 	ExitIdentifierExpression(c *IdentifierExpressionContext)
 
-	// ExitInBarExpression is called when exiting the inBarExpression production.
-	ExitInBarExpression(c *InBarExpressionContext)
+	// ExitAccessorExpression is called when exiting the accessorExpression production.
+	ExitAccessorExpression(c *AccessorExpressionContext)
 
 	// ExitParamsExpression is called when exiting the paramsExpression production.
 	ExitParamsExpression(c *ParamsExpressionContext)

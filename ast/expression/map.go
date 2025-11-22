@@ -28,40 +28,54 @@ import "github.com/tradalia/sick-engine/datatype"
 
 //=============================================================================
 //===
-//=== Function call
+//=== Map value
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type MapValue struct {
+	values    map[any]Expression
+	keyType   datatype.Type
+	valueType datatype.Type
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewMapValue(keyType, valueType datatype.Type) *MapValue {
+	return &MapValue{
+		keyType  : keyType,
+		valueType: valueType,
+		values   : map[any]Expression{},
 	}
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (v *MapValue) Set(key any, value Expression) {
+	v.values[key] = value
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
+func (v *MapValue) Data() any {
+	return v.values
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (v *MapValue) Type() datatype.Type {
+	return v.keyType
+}
+
+//=============================================================================
+
+func (v *MapValue) Equals(other Value) bool {
+	return false
+}
+
+//=============================================================================
+
+func (v *MapValue) LessThan(other Value) bool {
+	return false
 }
 
 //=============================================================================

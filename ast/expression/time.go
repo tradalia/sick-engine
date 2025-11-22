@@ -1,6 +1,6 @@
 //=============================================================================
 /*
-Copyright © 2025 Andrea Carboni andrea.carboni71@gmail.com
+Copyright © 2024 Andrea Carboni andrea.carboni71@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,44 +24,51 @@ THE SOFTWARE.
 
 package expression
 
-import "github.com/tradalia/sick-engine/datatype"
+import (
+	"github.com/tradalia/sick-engine/data"
+	"github.com/tradalia/sick-engine/datatype"
+)
 
 //=============================================================================
 //===
-//=== Function call
+//=== Time value
 //===
 //=============================================================================
 
-type FunctionCallExpression struct {
-	FQName      *FQIdentifier
-	Expressions []Expression
+type TimeValue struct {
+	value *data.Time
 }
 
 //=============================================================================
 
-func NewFunctionCallExpression(name *FQIdentifier, list []Expression) *FunctionCallExpression {
-	return &FunctionCallExpression{
-		FQName     : name,
-		Expressions: list,
+func NewTimeValue(value *data.Time) *TimeValue {
+	return &TimeValue{
+		value: value,
 	}
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) AddExpression(ex Expression) {
-	e.Expressions = append(e.Expressions, ex)
+func (v *TimeValue) Data() any {
+	return v.value
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Eval() (*ValueSet,error) {
-	return nil,nil
+func (v *TimeValue) Type() datatype.Type {
+	return datatype.NewTimeType()
 }
 
 //=============================================================================
 
-func (e *FunctionCallExpression) Type() datatype.Type {
-	return nil
+func (v *TimeValue) Equals(other Value) bool {
+	return false
+}
+
+//=============================================================================
+
+func (v *TimeValue) LessThan(other Value) bool {
+	return false
 }
 
 //=============================================================================
